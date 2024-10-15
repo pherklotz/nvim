@@ -17,23 +17,32 @@ vim.opt.softtabstop = 2  -- amount of white space to be added
 vim.opt.shiftwidth = 2   -- amount of white space to add in normal mode
 vim.opt.expandtab = true -- use spaces instead of tabs
 
+-- Line wrapping
+vim.opt.wrap = true -- enable line wrapping
+vim.opt.linebreak = true -- prevent line breaks in words
+vim.opt.showbreak = "↪ " -- character to indicate wrapped lines
+vim.opt.wrapmargin = 0 -- chars from the right border where wrapping starts
+
 -- Indentation
 vim.opt.smartindent = true -- autoindenting when starting a new line
-vim.opt.wrap = false       -- disable line wrapping
+
+-- Folding
+vim.o.foldmethod = "syntax" -- use syntax fold method
+vim.o.foldlevelstart = 99   -- open all folds by default
 
 -- Search
 vim.opt.incsearch = true  -- enable incremental search
 vim.opt.ignorecase = true -- ignore case in search pattern
-vim.opt.smartcase = true  -- case sensitive, if search pattern contains upper case characters
+vim.opt.smartcase = true  -- case sensitive search
 vim.opt.hlsearch = false  -- disable highlighting
 
 -- Appearance
 vim.opt.number = true         -- show real line number for current line
 vim.opt.relativenumber = true -- enable relative line numbers
-vim.opt.colorcolumn = '120'   -- highlighted line length
+vim.opt.colorcolumn = "80"    -- highlighted line length
 vim.opt.signcolumn = "yes"    -- draw the signcolumn (default = "auto")
-vim.opt.cmdheight = 1         -- number of screen lines to use for the command-line
-vim.opt.scrolloff = 10        -- minimal number of screen lines to keep above and below the cursor
+vim.opt.cmdheight = 1         -- number of lines to use for the command-line
+vim.opt.scrolloff = 10        -- number of lines to keep above and below the cursor
 vim.opt.completeopt = "menuone,noinsert,noselect"
 
 -- Behaviour
@@ -45,7 +54,7 @@ vim.opt.undodir = vim.fn.expand("~/.nvim/undo")
 vim.opt.backspace = "indent,eol,start"
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-vim.opt.autochdir = true  -- change current working directory whenever you open a file
+vim.opt.autochdir = false -- don't change the working directory automatically
 vim.opt.iskeyword:append("-")
 vim.opt.mouse:append("a") -- enable mouse support for all modes
 vim.opt.clipboard:append("unnamedplus")
@@ -62,6 +71,12 @@ vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = "netrw" })
 -- Move highlighted parts
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv") -- move up
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv") -- move down
+
+-- Add new line in normal mode
+vim.keymap.set("n", "<S-CR>", "o<ESC>")
+
+-- Exit from insert mode by Esc in Terminal
+vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 
 -- Remaps
 vim.keymap.set("i", "<C-c>", "<ESC>") -- CTRL-C -> ESC
@@ -83,7 +98,7 @@ end
 -- ./lua/gui.lua
 --
 if vim.fn.has("gui_running") then
-  pcall(require, 'gui')
+  pcall(require, "gui")
 end
 
 --
@@ -104,7 +119,4 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-
-if vim.fn.isdirectory(vim.fn.stdpath("config") .. "/lua/plugins") == 1 then
-  require("lazy").setup({ { import = "plugins" } })
-end
+require("lazy").setup({ { import = "plugins" } })
