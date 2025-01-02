@@ -6,22 +6,23 @@ return {
     name = 'rose-pine',
 
     config = function()
-      require('rose-pine').setup({
+      local use_transparent_bg = false -- use transparent mode
 
+      require('rose-pine').setup({
         --- @usage 'auto'|'main'|'moon'|'dawn'
         variant = 'auto',
         --- @usage 'main'|'moon'|'dawn'
         dark_variant = 'main',
         bold_vert_split = false,
         dim_nc_background = false,
-        disable_background = false,
-        disable_float_background = false,
+        disable_background = true,
+        disable_float_background = true,
         disable_italics = false,
 
 
         --- @usage string hex value or named color from rosepinetheme.com/palette
         groups = {
-          background = 'base',
+          background = (use_transparent_bg and 'NONE') or 'base',
           background_nc = '_experimental_nc',
           panel = 'surface',
           panel_nc = 'base',
