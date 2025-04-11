@@ -34,7 +34,7 @@ vim.o.foldlevelstart = 99   -- open all folds by default
 vim.opt.incsearch = true  -- enable incremental search
 vim.opt.ignorecase = true -- ignore case in search pattern
 vim.opt.smartcase = true  -- case sensitive search
-vim.opt.hlsearch = false  -- disable highlighting
+vim.opt.hlsearch = true   -- enable highlighting
 
 -- Appearance
 vim.opt.number = true         -- show real line number for current line
@@ -61,6 +61,15 @@ vim.opt.clipboard:append("unnamedplus")
 vim.opt.modifiable = true -- buffers per default modifiable
 vim.opt.encoding = "UTF-8"
 
+-- Highlight yanked text
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = vim.api.nvim_create_augroup('highlight_yank', {}),
+  desc = 'Hightlight selection on yank',
+  pattern = '*',
+  callback = function()
+    vim.highlight.on_yank { higroup = 'IncSearch', timeout = 500 }
+  end,
+})
 --
 -- Key Bindings
 --
@@ -119,4 +128,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup({ { import = "plugins" } })
+require("lazy").setup({
+  spec = { { import = "plugins" } },
+})

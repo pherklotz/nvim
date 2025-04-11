@@ -1,6 +1,5 @@
 return { {
   "doctorfree/cheatsheet.nvim",
-  event = "VeryLazy",
   dependencies = {
     { "nvim-telescope/telescope.nvim" },
     { "nvim-lua/popup.nvim" },
@@ -32,6 +31,9 @@ return { {
         ["<C-E>"] = ctactions.edit_user_cheatsheet,
       },
     })
-    vim.keymap.set('n', '<leader>cs', ':Cheatsheet<CR>', { ["desc"] = "Opens the cheatsheet popup" })
+--    vim.keymap.set('n', '<leader>cs', ':Cheatsheet<CR>', { ["desc"] = "Opens the cheatsheet popup" })
   end,
+  keys = {
+    { '<leader>cs', ':Cheatsheet<CR>', desc = "Opens the cheatsheet popup" }
+  },
 } }

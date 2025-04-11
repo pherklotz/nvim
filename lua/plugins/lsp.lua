@@ -23,19 +23,17 @@ return {
   -- manage LSP servers, DAP servers, linters, and formatters.
   {
     'williamboman/mason.nvim',
-    lazy = false,
+    lazy = true,
 
-    config = function()
-      require('mason').setup({
-        ui = {
-          icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-          }
+    opts = {
+      ui = {
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗"
         }
-      })
-    end
+      }
+    }
   },
 
   -- https://github.com/neovim/nvim-lspconfig
@@ -62,7 +60,7 @@ return {
       { 'hrsh7th/cmp-nvim-lsp' },
 
     },
-
+    event = "VeryLazy",
     config = function()
       local lsp_zero = require('lsp-zero')
 
@@ -149,5 +147,6 @@ return {
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#jdtls
   {
     'mfussenegger/nvim-jdtls',
+    event = "VeryLazy",
   }
 }

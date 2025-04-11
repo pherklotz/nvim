@@ -8,7 +8,7 @@ return {
 
     -- build is executed when the plugin is installed or updated
     build = ':TSUpdate',
-
+    event = "VeryLazy",
     config = function()
       -- Set the fold method to expression and use Tree-sitter's fold expression
       vim.o.foldmethod = 'expr'

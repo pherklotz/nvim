@@ -2,11 +2,8 @@ return
 {
   {
     "numToStr/Comment.nvim",
-    opts = {},
-    lazy = false,
-
-    config = function()
-      require('Comment').setup({
+    event = "VeryLazy",
+    opts = {
         ---Add a space b/w comment and the line
         padding = true,
         ---Whether the cursor should stay at its position
@@ -48,8 +45,6 @@ return
         pre_hook = nil,
         ---Function to call after (un)comment
         post_hook = nil,
-      })
-    end
-
+      },
   }
 }
