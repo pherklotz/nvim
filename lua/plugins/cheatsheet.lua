@@ -5,11 +5,11 @@ return { {
     { "nvim-lua/popup.nvim" },
     { "nvim-lua/plenary.nvim" },
   },
+  event = "VeryLazy",
   config = function()
     local ctactions = require("cheatsheet.telescope.actions")
     require("cheatsheet").setup({
-      bundled_cheetsheets = {
-        enabled = { "default", "lua", "markdown", "regex", "netrw", "unicode" },
+      bundled_cheatsheets = {
         disabled = { "nerd-fonts" },
       },
       bundled_plugin_cheatsheets = {
@@ -23,15 +23,15 @@ return { {
         },
         disabled = { "gitsigns" },
       },
-      include_only_installed_plugins = true,
+      include_only_installed_plugins = false,
       telescope_mappings = {
-        ["<CR>"] = ctactions.select_or_fill_commandline,
-        ["<A-CR>"] = ctactions.select_or_execute,
-        ["<C-Y>"] = ctactions.copy_cheat_value,
-        ["<C-E>"] = ctactions.edit_user_cheatsheet,
-      },
+        ["<CR>"] = require('cheatsheet.telescope.actions').select_or_fill_commandline,
+        ["<A-CR>"] = require('cheatsheet.telescope.actions').select_or_execute,
+        ["<C-Y>"] = require('cheatsheet.telescope.actions').copy_cheat_value,
+        ["<C-E>"] = require('cheatsheet.telescope.actions').edit_user_cheatsheet,
+      }
     })
---    vim.keymap.set('n', '<leader>cs', ':Cheatsheet<CR>', { ["desc"] = "Opens the cheatsheet popup" })
+    --    vim.keymap.set('n', '<leader>cs', ':Cheatsheet<CR>', { ["desc"] = "Opens the cheatsheet popup" })
   end,
   keys = {
     { '<leader>cs', ':Cheatsheet<CR>', desc = "Opens the cheatsheet popup" }
