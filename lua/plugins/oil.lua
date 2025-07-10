@@ -184,9 +184,6 @@ return {
       keymaps_help = {
         border = "rounded",
       },
-    },
-    keys = {
-      { "<leader>e", "<CMD>Oil<CR>", desc = "Open parent directory" }
     }
   }
 }
