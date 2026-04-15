@@ -26,10 +26,10 @@ return {
     lazy = true,
 
     opts = {
-      ui = {
-        icons = {
-          package_installed = "✓",
-          package_pending = "➜",
+        ui = {
+          icons = {
+            package_installed = "✓",
+            package_pending = "➜",
           package_uninstalled = "✗"
         }
       }
@@ -146,9 +146,9 @@ return {
             cmd = { 'typescript-language-server', '--stdio' },
             root_dir = root_dir,
             init_options = init_options,
-            capabilities = capabilities,
-          })
-        end,
+							capabilities = capabilities,
+						})
+					end,
       })
     end
   },

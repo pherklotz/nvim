@@ -5,6 +5,7 @@ return {
 
   {
     'nvim-treesitter/nvim-treesitter',
+    event = "VeryLazy",
 
     -- build is executed when the plugin is installed or updated
     build = ':TSUpdate',
@@ -17,7 +18,7 @@ return {
       require 'nvim-treesitter.configs'.setup {
 
         -- A list of parser names, or "all" (the five listed parsers should always be installed)
-        ensure_installed = { "vim", "vimdoc", "lua" },
+        ensure_installed = { "vim", "vimdoc", "lua", "java" },
 
         -- Install parsers synchronously (only applied to `ensure_installed`)
         sync_install = true,

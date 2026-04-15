@@ -18,7 +18,10 @@ vim.opt.shiftwidth = 2   -- amount of white space to add in normal mode
 vim.opt.expandtab = true -- use spaces instead of tabs
 
 -- Line wrapping
-vim.opt.wrap = true -- enable line wrapping
+--
+-- By default, line wrapping is disabled to keep
+-- relative line numbers clear and avoids confusion.
+vim.opt.wrap = false -- disable line wrapping
 vim.opt.linebreak = true -- prevent line breaks in words
 vim.opt.showbreak = "↪ " -- character to indicate wrapped lines
 vim.opt.wrapmargin = 0 -- chars from the right border where wrapping starts
@@ -40,10 +43,11 @@ vim.opt.hlsearch = true   -- enable highlighting
 vim.opt.number = true         -- show real line number for current line
 vim.opt.relativenumber = true -- enable relative line numbers
 vim.opt.colorcolumn = "80"    -- highlighted line length
-vim.opt.signcolumn = "yes"    -- draw the signcolumn (default = "auto")
+vim.opt.signcolumn = "yes:2" -- draw the signcolumn (default = "auto")
 vim.opt.cmdheight = 1         -- number of lines to use for the command-line
-vim.opt.scrolloff = 10        -- number of lines to keep above and below the cursor
+vim.opt.scrolloff = 5 -- number of lines to keep above and below the cursor
 vim.opt.completeopt = "menuone,noinsert,noselect"
+vim.opt.cursorline = true
 
 -- Behaviour
 vim.opt.errorbells = false -- switch off noise in case of errors
@@ -87,18 +91,39 @@ vim.keymap.set("n", "<S-CR>", "o<ESC>")
 -- Exit from insert mode by Esc in Terminal
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 
--- Remaps
-vim.keymap.set("i", "<C-c>", "<ESC>") -- CTRL-C -> ESC
+-- Make <C-c> behave exactly like <Esc> in insert mode
+-- (also triggers InsertLeave autocommands)
+vim.keymap.set("i", "<C-c>", "<ESC>")
+
+-- Diagnostics
+-- Disabled by default in Neovim 0.11.
+vim.diagnostic.config({ virtual_text = true })
+
+-- Toggle line wrapping with <leader>w
+vim.keymap.set("n", "<leader>w", function()
+	vim.opt.wrap = not vim.opt.wrap:get()
+	if vim.opt.wrap:get() then
+		print("vim.opt.wrap enabled")
+	else
+		print("vim.opt.wrap disabled")
+	end
+end, { desc = "Toggle line wrap" })
 
 --
+-- Custom auto-commands
+-- ./lua/autocmd.lua
+--
+if vim.fn.has("autocmd") then
+	pcall(require, "autocmd")
+end
+
 --
 -- Windows specific configuration
 -- ./lua/windows.lua
 --
-
-if vim.loop.os_uname().sysname == "Windows_NT" then
+if vim.uv.os_uname().sysname == "Windows_NT" then
   pcall(require, "windows")
-elseif vim.loop.os_uname().sysname == "Linux" then
+elseif vim.uv.os_uname().sysname == "Linux" then
   pcall(require, "linux")
 end
 
@@ -116,7 +141,7 @@ end
 --
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
