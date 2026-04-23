@@ -12,9 +12,9 @@ vim.g.maplocalleader = " "
 --
 
 -- Tabstop
-vim.opt.tabstop = 2      -- width of tab character
-vim.opt.softtabstop = 2  -- amount of white space to be added
-vim.opt.shiftwidth = 2   -- amount of white space to add in normal mode
+vim.opt.tabstop = 2 -- width of tab character
+vim.opt.softtabstop = 2 -- amount of white space to be added
+vim.opt.shiftwidth = 2 -- amount of white space to add in normal mode
 vim.opt.expandtab = true -- use spaces instead of tabs
 
 -- Line wrapping
@@ -31,29 +31,29 @@ vim.opt.smartindent = true -- autoindenting when starting a new line
 
 -- Folding
 vim.o.foldmethod = "syntax" -- use syntax fold method
-vim.o.foldlevelstart = 99   -- open all folds by default
+vim.o.foldlevelstart = 99 -- open all folds by default
 
 -- Search
-vim.opt.incsearch = true  -- enable incremental search
+vim.opt.incsearch = true -- enable incremental search
 vim.opt.ignorecase = true -- ignore case in search pattern
-vim.opt.smartcase = true  -- case sensitive search
+vim.opt.smartcase = true -- case sensitive search
 vim.opt.hlsearch = true   -- enable highlighting
 
 -- Appearance
-vim.opt.number = true         -- show real line number for current line
+vim.opt.number = true -- show real line number for current line
 vim.opt.relativenumber = true -- enable relative line numbers
-vim.opt.colorcolumn = "80"    -- highlighted line length
+vim.opt.colorcolumn = "80" -- highlighted line length
 vim.opt.signcolumn = "yes:2" -- draw the signcolumn (default = "auto")
-vim.opt.cmdheight = 1         -- number of lines to use for the command-line
+vim.opt.cmdheight = 1 -- number of lines to use for the command-line
 vim.opt.scrolloff = 5 -- number of lines to keep above and below the cursor
 vim.opt.completeopt = "menuone,noinsert,noselect"
 vim.opt.cursorline = true
 
 -- Behaviour
 vim.opt.errorbells = false -- switch off noise in case of errors
-vim.opt.swapfile = false   -- disable swapfiles for buffers
-vim.opt.backup = false     -- disable backup file
-vim.opt.undofile = true    -- enable undo files
+vim.opt.swapfile = false -- disable swapfiles for buffers
+vim.opt.backup = false -- disable backup file
+vim.opt.undofile = true -- enable undo files
 vim.opt.undodir = vim.fn.expand("~/.nvim/undo")
 vim.opt.backspace = "indent,eol,start"
 vim.opt.splitright = true
@@ -122,9 +122,11 @@ end
 -- ./lua/windows.lua
 --
 if vim.uv.os_uname().sysname == "Windows_NT" then
-  pcall(require, "windows")
+	pcall(require, "windows")
+elseif vim.uv.os_uname().release:find("WSL") then
+	pcall(require, "wsl")
 elseif vim.uv.os_uname().sysname == "Linux" then
-  pcall(require, "linux")
+	pcall(require, "linux")
 end
 
 --
@@ -132,7 +134,7 @@ end
 -- ./lua/gui.lua
 --
 if vim.fn.has("gui_running") then
-  pcall(require, "gui")
+	pcall(require, "gui")
 end
 
 --
@@ -142,14 +144,14 @@ end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 
 vim.opt.rtp:prepend(lazypath)
